@@ -16,6 +16,9 @@ class Backend : public QObject
     QML_ELEMENT
 
 public:
+    /*
+     * @throws std::runtime_error
+     */
     explicit Backend(QObject *parent = nullptr);
 
     /*

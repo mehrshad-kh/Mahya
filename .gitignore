@@ -1,3 +1,5 @@
+build/
+
 # Qt
 CMakeLists.txt.user
 

@@ -5,10 +5,11 @@ import QtQuick.Layouts
 import Mahya
 
 ApplicationWindow {
-    width: 640
-    height: 480
+    minimumWidth: 640
+    minimumHeight: 480
     visible: true
     title: "Mahya"
+
 
     Backend {
         id: my_backend
@@ -19,6 +20,7 @@ ApplicationWindow {
             author_field.text = ""
             author_description_area.text = ""
             text_description_area.text = ""
+            week_number_field.focus = true
         }
     }
 
@@ -36,105 +38,129 @@ ApplicationWindow {
         }
     }
 
-    ColumnLayout {
+    RowLayout {
         anchors.fill: parent
 
-        RowLayout {
-            Label {
-                text: "Week #"
-            }
+        ColumnLayout {
+            RowLayout {
+                // Layout.margins: 20
 
-            TextField {
-                id: week_number_field
+                    Layout.fillWidth: true
+                Label {
+                    text: "Week #"
+                }
 
-                Layout.fillWidth: true
-            }
-        }
+                TextField {
+                    id: week_number_field
 
-        RowLayout {
-            Label {
-                id: text
-
-                text: "Text"
-            }
-
-            ScrollView {
-                id: text_area_view
-
-                contentHeight: 100
-                Layout.fillWidth: true
-
-                TextArea {
-                    id: text_area
                 }
             }
 
-        }
+            RowLayout {
+                // Layout.margins: 20
 
-        RowLayout {
-            Label {
-                text: "Author"
+                Label {
+                    id: text
+
+                    text: "Text"
+                }
+
+                ScrollView {
+                    id: text_area_view
+
+                    contentHeight: 100
+                    Layout.fillWidth: true
+
+                    TextArea {
+                        id: text_area
+                    }
+                }
+
             }
 
-            TextField {
-                id: author_field
+            RowLayout {
+                // Layout.margins: 20
 
-                Layout.fillWidth: true
+                Label {
+                    text: "Author"
+                }
+
+                TextField {
+                    id: author_field
+
+                    Layout.fillWidth: true
+                }
             }
-        }
 
-        RowLayout {
-            Label {
-                text: "Author Description"
+            RowLayout {
+                // Layout.margins: 20
+
+                Label {
+                    text: "Author Description"
+                }
+
+                ScrollView {
+                    id: author_description_area_view
+
+                    contentHeight: 50
+                    Layout.fillWidth: true
+
+                    TextArea {
+                        id: author_description_area
+                    }
+                }
             }
 
-            ScrollView {
-                id: author_description_area_view
+            RowLayout {
+                // Layout.margins: 20
 
-                contentHeight: 50
-                Layout.fillWidth: true
+                Label {
+                    id: text_description
 
-                TextArea {
-                    id: author_description_area
+                    text: "Text Description"
+                }
+
+                ScrollView {
+                    id: text_description_area_view
+
+                    contentHeight: 50
+                    Layout.fillWidth: true
+
+                    TextArea {
+                        id: text_description_area
+                    }
+                }
+            }
+
+            RowLayout {
+                // Layout.margins: 20
+                Layout.alignment: Qt.AlignRight
+
+                Button {
+                    id: save_button
+
+                    text: "Save"
+
+                    onClicked: {
+                        my_backend.saveQuote(
+                            week_number_field.text,
+                            text_area.text,
+                            author_field.text,
+                            author_description_area.text,
+                            text_description_area.text)
+                    }
                 }
             }
         }
 
-        RowLayout {
+        ColumnLayout {
             Label {
-                id: text_description
-
-                text: "Text Description"
+                text: "First saved quote: Week #" + 1
             }
 
-            ScrollView {
-                id: text_description_area_view
-
-                contentHeight: 50
-                Layout.fillWidth: true
-
-                TextArea {
-                    id: text_description_area
-                }
-            }
-        }
-
-        RowLayout {
-            Button {
-                id: save_button
-
-                text: "Save"
-
-                onClicked: {
-                    my_backend.saveQuote(
-                        week_number_field.text,
-                        text_area.text,
-                        author_field.text,
-                        author_description_area.text,
-                        text_description_area.text)
-                }
+            Label {
+                text: "Last saved quote: Week #" + 10
             }
         }
     }
-
 }
