@@ -1,5 +1,6 @@
 #include "backend.hpp"
 
+#include <cstdlib>
 #include <stdexcept>
 
 #include <QByteArray>
@@ -14,11 +15,43 @@ Backend::Backend(QObject *parent) : QObject(parent)
 {
     openDatabase();
     initDatabase();
+    getFirstLastQuotes();
 }
 
 Backend::~Backend()
 {
     closeDatabase();
+}
+
+
+int Backend::first_saved_quote() 
+{ 
+    return first_saved_quote_;
+}
+
+int Backend::last_saved_quote() 
+{ 
+    return last_saved_quote_; 
+}
+
+void Backend::set_first_saved_quote(const int& value) 
+{ 
+    if (value == first_saved_quote_)
+        return;
+
+    first_saved_quote_ = value; 
+
+    emit firstSavedQuoteChanged();
+}
+
+void Backend::set_last_saved_quote(const int& value) 
+{ 
+    if (value == last_saved_quote_)
+        return;
+
+    last_saved_quote_ = value; 
+
+    emit lastSavedQuoteChanged();
 }
 
 void Backend::saveQuote(
@@ -55,7 +88,7 @@ void Backend::saveQuote(
     QByteArray qba_query = query.toLocal8Bit();
     const char *str_query = qba_query.constData();
 
-    rc = sqlite3_prepare_v2(database, str_query, -1, &statement, nullptr);
+    rc = sqlite3_prepare_v2(database_, str_query, -1, &statement, nullptr);
 
     if (rc == SQLITE_OK) {
         sqlite3_bind_int(statement, 1, week_number.toInt());
@@ -95,7 +128,7 @@ void Backend::initDatabase()
         "text_description TEXT"
         ");";
 
-    rc = sqlite3_exec(database, query.c_str(), nullptr, nullptr, &sql_error);
+    rc = sqlite3_exec(database_, query.c_str(), nullptr, nullptr, &sql_error);
     // SQLITE_OK is 0.
     if (rc != SQLITE_OK) {
         std::string message = "Cannot create table: "
@@ -109,14 +142,14 @@ void Backend::openDatabase()
 {
     int rc = 0;
 
-    std::string filename = path + database_name;
+    std::string filename = path_ + database_name_;
 
-    rc = sqlite3_open(filename.c_str(), &database);
+    rc = sqlite3_open(filename.c_str(), &database_);
 
     if (rc != SQLITE_OK) {
         std::string message = "Can't open database: " 
-            + std::string(sqlite3_errmsg(database));
-        sqlite3_close(database);
+            + std::string(sqlite3_errmsg(database_));
+        sqlite3_close(database_);
         throw std::runtime_error(message);
     }
 }
@@ -125,11 +158,52 @@ void Backend::closeDatabase()
 {
     int rc = 0;
 
-    rc = sqlite3_close(database);
+    rc = sqlite3_close(database_);
 
     if (rc == SQLITE_BUSY) {
         throw std::runtime_error("Cannot close database: it is busy.");
     } else if (rc != SQLITE_OK) {
         throw std::runtime_error("Cannot close database.");
     }
+}
+
+void Backend::getFirstLastQuotes()
+{
+    int rc = 0;
+    char *sql_error = nullptr;
+
+    QString query = 
+        "SELECT MIN(week_number) AS min, MAX(week_number) AS max "
+        "FROM quotes;";
+
+    QByteArray qba_query = query.toLocal8Bit();
+    const char *str_query = qba_query.constData();
+
+    sqlite3_exec(
+        database_, 
+        str_query, 
+        &firstLastQuotesCallback, 
+        this, 
+        &sql_error);
+
+    if (rc) {
+        std::string message = "Cannot retrieve information: "
+            + std::string(sql_error);
+        sqlite3_free(sql_error);
+        throw std::runtime_error(message);
+    }
+}
+
+int Backend::firstLastQuotesCallback(
+    void *ptr, 
+    int column_count, 
+    char **row_data, 
+    char **column_names)
+{
+    Backend *backend = static_cast<Backend *>(ptr);
+
+    backend->set_first_saved_quote(static_cast<int>(std::strtol(*row_data, nullptr, 10)));
+    backend->set_last_saved_quote(static_cast<int>(std::strtol(*(row_data + 1), nullptr, 10)));
+
+    return 0;
 }

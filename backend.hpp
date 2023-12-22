@@ -14,6 +14,10 @@ class Backend : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
+    // Possible problem: different order on the web.
+    Q_PROPERTY(int first_saved_quote READ first_saved_quote WRITE set_first_saved_quote NOTIFY firstSavedQuoteChanged)
+    Q_PROPERTY(int last_saved_quote READ last_saved_quote WRITE set_last_saved_quote NOTIFY lastSavedQuoteChanged)
+
 
 public:
     /*
@@ -26,6 +30,14 @@ public:
      */
     ~Backend();
 
+    // Getters
+    int first_saved_quote();
+    int last_saved_quote();
+
+    // Setters
+    void set_first_saved_quote(const int& value);
+    void set_last_saved_quote(const int& value);
+
     /*
      * @throws std::runtime_error
      */
@@ -37,13 +49,18 @@ public:
         QString text_description);
 
 signals:
+    void firstSavedQuoteChanged();
+    void lastSavedQuoteChanged();
     void quoteSaved(int week_number);
 
 private:
-    sqlite3 *database;
+    sqlite3 *database_;
 
-    std::string database_name = "quotes.db";
-    std::string path = "/Users/mehrshadkh./Documents/Mahya/";
+    int first_saved_quote_ = 0;
+    int last_saved_quote_ = 0;
+    std::string database_name_ = "quotes.db";
+    std::string path_ = "/Users/mehrshadkh./Documents/Mahya/";
+
 
     /*
      * @throws std::runtime_error
@@ -53,11 +70,18 @@ private:
      * @throws std::runtime_error
      */
     void openDatabase();
-
     /*
      * @throws std::runtime_error
      */
     void closeDatabase();
+
+    void getFirstLastQuotes();
+
+    static int firstLastQuotesCallback(
+        void *ptr, 
+        int column_count, 
+        char **row_data, 
+        char **column_names);
 };
 
 #endif // BACKEND_HPP

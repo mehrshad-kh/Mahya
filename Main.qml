@@ -45,7 +45,6 @@ ApplicationWindow {
             RowLayout {
                 // Layout.margins: 20
 
-                    Layout.fillWidth: true
                 Label {
                     text: "Week #"
                 }
@@ -53,6 +52,7 @@ ApplicationWindow {
                 TextField {
                     id: week_number_field
 
+                    Layout.fillWidth: true
                 }
             }
 
@@ -155,11 +155,11 @@ ApplicationWindow {
 
         ColumnLayout {
             Label {
-                text: "First saved quote: Week #" + 1
+                text: "First saved quote: Week " + my_backend.first_saved_quote
             }
 
             Label {
-                text: "Last saved quote: Week #" + 10
+                text: "Last saved quote: Week " + my_backend.last_saved_quote
             }
         }
     }
