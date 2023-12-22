@@ -10,9 +10,19 @@ ApplicationWindow {
     visible: true
     title: "Mahya"
 
+    property int firstSavedQuote: 0
+    property int lastSavedQuote: 0
 
     Backend {
         id: my_backend
+
+        onFirstSavedQuoteChanged: (value) => {
+            firstSavedQuote = value
+        }
+
+        onLastSavedQuoteChanged: (value) => {
+            lastSavedQuote = value
+        }
 
         onQuoteSaved: {
             week_number_field.text = ""
@@ -148,6 +158,8 @@ ApplicationWindow {
                             author_field.text,
                             author_description_area.text,
                             text_description_area.text)
+
+                        my_backend.retrieveFirstLastQuotes()
                     }
                 }
             }
@@ -155,11 +167,15 @@ ApplicationWindow {
 
         ColumnLayout {
             Label {
-                text: "First saved quote: Week " + my_backend.first_saved_quote
+                text: "First saved quote: Week " + firstSavedQuote
             }
 
             Label {
-                text: "Last saved quote: Week " + my_backend.last_saved_quote
+                text: "Last saved quote: Week " + lastSavedQuote
+            }
+
+            Component.onCompleted: {
+                my_backend.retrieveFirstLastQuotes()
             }
         }
     }

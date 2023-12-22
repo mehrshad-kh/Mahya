@@ -48,9 +48,11 @@ public:
         QString author_description,
         QString text_description);
 
+    Q_INVOKABLE void retrieveFirstLastQuotes();
+
 signals:
-    void firstSavedQuoteChanged();
-    void lastSavedQuoteChanged();
+    void firstSavedQuoteChanged(int value);
+    void lastSavedQuoteChanged(int value);
     void quoteSaved(int week_number);
 
 private:
@@ -74,8 +76,6 @@ private:
      * @throws std::runtime_error
      */
     void closeDatabase();
-
-    void getFirstLastQuotes();
 
     static int firstLastQuotesCallback(
         void *ptr, 

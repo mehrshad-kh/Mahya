@@ -15,7 +15,6 @@ Backend::Backend(QObject *parent) : QObject(parent)
 {
     openDatabase();
     initDatabase();
-    getFirstLastQuotes();
 }
 
 Backend::~Backend()
@@ -41,7 +40,7 @@ void Backend::set_first_saved_quote(const int& value)
 
     first_saved_quote_ = value; 
 
-    emit firstSavedQuoteChanged();
+    emit firstSavedQuoteChanged(first_saved_quote_);
 }
 
 void Backend::set_last_saved_quote(const int& value) 
@@ -51,7 +50,7 @@ void Backend::set_last_saved_quote(const int& value)
 
     last_saved_quote_ = value; 
 
-    emit lastSavedQuoteChanged();
+    emit lastSavedQuoteChanged(last_saved_quote_);
 }
 
 void Backend::saveQuote(
@@ -110,7 +109,6 @@ void Backend::saveQuote(
     sqlite3_finalize(statement);
 
     emit quoteSaved(week_number.toInt());
-    return;
 }
 
 void Backend::initDatabase()
@@ -167,7 +165,7 @@ void Backend::closeDatabase()
     }
 }
 
-void Backend::getFirstLastQuotes()
+void Backend::retrieveFirstLastQuotes()
 {
     int rc = 0;
     char *sql_error = nullptr;
