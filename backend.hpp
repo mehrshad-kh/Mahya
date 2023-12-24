@@ -14,10 +14,9 @@ class Backend : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
-    // Possible problem: different order on the web.
-    Q_PROPERTY(int first_saved_quote READ first_saved_quote WRITE set_first_saved_quote NOTIFY firstSavedQuoteChanged)
-    Q_PROPERTY(int last_saved_quote READ last_saved_quote WRITE set_last_saved_quote NOTIFY lastSavedQuoteChanged)
-
+    // Are these necessary?
+    // Q_PROPERTY(int first_saved_quote READ first_saved_quote WRITE set_first_saved_quote NOTIFY firstSavedQuoteChanged)
+    // Q_PROPERTY(int last_saved_quote READ last_saved_quote WRITE set_last_saved_quote NOTIFY lastSavedQuoteChanged)
 
 public:
     /*
@@ -30,11 +29,9 @@ public:
      */
     ~Backend();
 
-    // Getters
     int first_saved_quote();
     int last_saved_quote();
 
-    // Setters
     void set_first_saved_quote(const int& value);
     void set_last_saved_quote(const int& value);
 
@@ -48,6 +45,9 @@ public:
         QString author_description,
         QString text_description);
 
+    /*
+     * @throws std::runtime_error
+     */
     Q_INVOKABLE void retrieveFirstLastQuotes();
 
 signals:

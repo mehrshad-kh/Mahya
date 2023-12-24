@@ -49,6 +49,8 @@ ApplicationWindow {
     }
 
     RowLayout {
+        anchors.leftMargin: 10
+        anchors.rightMargin: 10
         anchors.fill: parent
 
         ColumnLayout {
