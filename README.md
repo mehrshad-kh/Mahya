@@ -2,7 +2,11 @@
 
 ## Introduction
 
+<!---
 [![Screen-Shot-1402-11-30-at-22-07-19.jpg](https://i.postimg.cc/90zFcLRF/Screen-Shot-1402-11-30-at-22-07-19.jpg)](https://postimg.cc/WqLPn6wQ)
+-->
+
+[![Screen-Shot-1402-11-30-at-22-07-19.jpg](https://i.postimg.cc/bYs4xZnt/Screen-Shot-1402-11-30-at-22-07-19.jpg)](https://postimg.cc/YjBXkqbr)
 
 This is an app I created for a personal use case of mine. It stores a collection of quotes into a database.
 
