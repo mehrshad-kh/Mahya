@@ -6,6 +6,7 @@ import Mahya
 
 ApplicationWindow {
     id: applicationWindow
+
     minimumWidth: 640
     minimumHeight: 480
     visible: true
@@ -42,12 +43,20 @@ ApplicationWindow {
 
     menuBar: MenuBar {
         Menu {
+            id: fileMenu
+
             title: "File"
+
             MenuItem {
+                id: fileOpenMenuItem
+
                 text: "Open"
                 onTriggered: console.log("Open action triggered");
             }
+
             MenuItem {
+                id: fileQuitMenuItem
+
                 text: "Quit"
                 onTriggered: Qt.quit();
             }
@@ -64,6 +73,8 @@ ApplicationWindow {
                 // Layout.margins: 20
 
                 Label {
+                    id: weekNumberLabel
+
                     text: "Week #"
                 }
 
@@ -79,13 +90,13 @@ ApplicationWindow {
                 // Layout.margins: 20
 
                 Label {
-                    id: text
+                    id: textLabel
 
                     text: "Text"
                 }
 
                 ScrollView {
-                    id: textArea_view
+                    id: textAreaView
 
                     contentHeight: 100
                     Layout.fillWidth: true
@@ -93,7 +104,7 @@ ApplicationWindow {
                     TextArea {
                         id: textArea
 
-                        // Set tab key to move to next control.
+                        // Set tab key to move to the next control.
                         KeyNavigation.priority: KeyNavigation.BeforeItem
                         KeyNavigation.tab: authorField
                     }
@@ -123,7 +134,7 @@ ApplicationWindow {
                 }
 
                 ScrollView {
-                    id: authorDescriptionArea_view
+                    id: authorDescriptionAreaView
 
                     contentHeight: 50
                     Layout.fillWidth: true
@@ -131,7 +142,7 @@ ApplicationWindow {
                     TextArea {
                         id: authorDescriptionArea
 
-                        // Set tab key to move to next control.
+                        // Set tab key to move to the next control.
                         KeyNavigation.priority: KeyNavigation.BeforeItem
                         KeyNavigation.tab: textDescriptionArea
                     }
@@ -142,13 +153,13 @@ ApplicationWindow {
                 // Layout.margins: 20
 
                 Label {
-                    id: text_description
+                    id: textDescription
 
                     text: "Text Description"
                 }
 
                 ScrollView {
-                    id: textDescriptionArea_view
+                    id: textDescriptionAreaView
 
                     contentHeight: 50
                     Layout.fillWidth: true
@@ -156,9 +167,9 @@ ApplicationWindow {
                     TextArea {
                         id: textDescriptionArea
 
-                        // Set tab key to move to next control.
+                        // Set tab key to move to the next control.
                         KeyNavigation.priority: KeyNavigation.BeforeItem
-                        KeyNavigation.tab: save_button
+                        KeyNavigation.tab: saveButton
                     }
                 }
             }
@@ -168,7 +179,7 @@ ApplicationWindow {
                 Layout.alignment: Qt.AlignRight
 
                 Button {
-                    id: save_button
+                    id: saveButton
 
                     text: "Save"
 
@@ -188,10 +199,14 @@ ApplicationWindow {
 
         ColumnLayout {
             Label {
+                id: firstSavedQuoteLabel
+
                 text: "First saved quote: Week " + firstSavedQuote
             }
 
             Label {
+                id: lastSavedQuoteLabel
+
                 text: "Last saved quote: Week " + lastSavedQuote
             }
 
