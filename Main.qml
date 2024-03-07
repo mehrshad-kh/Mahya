@@ -85,6 +85,9 @@ ApplicationWindow {
 
                     TextArea {
                         id: text_area
+
+                        KeyNavigation.priority: KeyNavigation.BeforeItem
+                        KeyNavigation.tab: author_field
                     }
                 }
 
@@ -119,6 +122,9 @@ ApplicationWindow {
 
                     TextArea {
                         id: author_description_area
+
+                        KeyNavigation.priority: KeyNavigation.BeforeItem
+                        KeyNavigation.tab: text_description_area
                     }
                 }
             }
@@ -140,6 +146,9 @@ ApplicationWindow {
 
                     TextArea {
                         id: text_description_area
+
+                        KeyNavigation.priority: KeyNavigation.BeforeItem
+                        KeyNavigation.tab: save_button
                     }
                 }
             }

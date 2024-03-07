@@ -61,7 +61,7 @@ private:
     int first_saved_quote_ = 0;
     int last_saved_quote_ = 0;
     std::string database_name_ = "quotes.db";
-    std::string path_ = "/Users/mehrshadkh./Documents/Mahya/";
+    std::string path_ = "/Users/mehrshadkh./Documents/Databases/Mahya/";
 
 
     /*
