@@ -64,6 +64,7 @@ ApplicationWindow {
                 TextField {
                     id: weekNumberField
 
+                    focus: true
                     Layout.fillWidth: true
                 }
             }
