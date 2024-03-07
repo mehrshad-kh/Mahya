@@ -5,10 +5,16 @@ import QtQuick.Layouts
 import Mahya
 
 ApplicationWindow {
+    id: applicationWindow
     minimumWidth: 640
     minimumHeight: 480
     visible: true
     title: "Mahya"
+
+    Shortcut {
+        sequences: [StandardKey.Close]
+        onActivated: applicationWindow.close();
+    }
 
     property int firstSavedQuote: 0
     property int lastSavedQuote: 0
