@@ -14,7 +14,7 @@ ApplicationWindow {
     property int lastSavedQuote: 0
 
     Backend {
-        id: my_backend
+        id: myBackend
 
         onFirstSavedQuoteChanged: (value) => {
             firstSavedQuote = value
@@ -25,12 +25,12 @@ ApplicationWindow {
         }
 
         onQuoteSaved: {
-            week_number_field.text = ""
-            text_area.text = ""
-            author_field.text = ""
-            author_description_area.text = ""
-            text_description_area.text = ""
-            week_number_field.focus = true
+            weekNumberField.text = ""
+            textArea.text = ""
+            authorField.text = ""
+            authorDescriptionArea.text = ""
+            textDescriptionArea.text = ""
+            weekNumberField.focus = true
         }
     }
 
@@ -62,7 +62,7 @@ ApplicationWindow {
                 }
 
                 TextField {
-                    id: week_number_field
+                    id: weekNumberField
 
                     Layout.fillWidth: true
                 }
@@ -78,16 +78,17 @@ ApplicationWindow {
                 }
 
                 ScrollView {
-                    id: text_area_view
+                    id: textArea_view
 
                     contentHeight: 100
                     Layout.fillWidth: true
 
                     TextArea {
-                        id: text_area
+                        id: textArea
 
+                        // Set tab key to move to next control.
                         KeyNavigation.priority: KeyNavigation.BeforeItem
-                        KeyNavigation.tab: author_field
+                        KeyNavigation.tab: authorField
                     }
                 }
 
@@ -101,7 +102,7 @@ ApplicationWindow {
                 }
 
                 TextField {
-                    id: author_field
+                    id: authorField
 
                     Layout.fillWidth: true
                 }
@@ -115,16 +116,17 @@ ApplicationWindow {
                 }
 
                 ScrollView {
-                    id: author_description_area_view
+                    id: authorDescriptionArea_view
 
                     contentHeight: 50
                     Layout.fillWidth: true
 
                     TextArea {
-                        id: author_description_area
+                        id: authorDescriptionArea
 
+                        // Set tab key to move to next control.
                         KeyNavigation.priority: KeyNavigation.BeforeItem
-                        KeyNavigation.tab: text_description_area
+                        KeyNavigation.tab: textDescriptionArea
                     }
                 }
             }
@@ -139,14 +141,15 @@ ApplicationWindow {
                 }
 
                 ScrollView {
-                    id: text_description_area_view
+                    id: textDescriptionArea_view
 
                     contentHeight: 50
                     Layout.fillWidth: true
 
                     TextArea {
-                        id: text_description_area
+                        id: textDescriptionArea
 
+                        // Set tab key to move to next control.
                         KeyNavigation.priority: KeyNavigation.BeforeItem
                         KeyNavigation.tab: save_button
                     }
@@ -163,14 +166,14 @@ ApplicationWindow {
                     text: "Save"
 
                     onClicked: {
-                        my_backend.saveQuote(
-                            week_number_field.text,
-                            text_area.text,
-                            author_field.text,
-                            author_description_area.text,
-                            text_description_area.text)
+                        myBackend.saveQuote(
+                            weekNumberField.text,
+                            textArea.text,
+                            authorField.text,
+                            authorDescriptionArea.text,
+                            textDescriptionArea.text)
 
-                        my_backend.retrieveFirstLastQuotes()
+                        myBackend.retrieveFirstLastQuotes()
                     }
                 }
             }
@@ -186,7 +189,7 @@ ApplicationWindow {
             }
 
             Component.onCompleted: {
-                my_backend.retrieveFirstLastQuotes()
+                myBackend.retrieveFirstLastQuotes()
             }
         }
     }
