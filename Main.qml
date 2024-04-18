@@ -181,6 +181,7 @@ ApplicationWindow {
                 Button {
                     id: saveButton
 
+                    highlighted: true
                     text: "Save"
 
                     onClicked: {
