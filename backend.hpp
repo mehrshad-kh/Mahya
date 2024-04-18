@@ -14,9 +14,6 @@ class Backend : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
-    // Are these necessary?
-    // Q_PROPERTY(int first_saved_quote READ first_saved_quote WRITE set_first_saved_quote NOTIFY firstSavedQuoteChanged)
-    // Q_PROPERTY(int last_saved_quote READ last_saved_quote WRITE set_last_saved_quote NOTIFY lastSavedQuoteChanged)
 
 public:
     /*
