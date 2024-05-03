@@ -22,4 +22,4 @@ The app icon is an artwork of the main entrance to [Isfahan University of Techno
 
 ## Nomenclature
 
-Mahya (مهیا) is a Persian girl's name. As a result, it may be written in one of two spellings, one of which, in fact the one I intended, is more unique than the other.
+Mahya (مهیا) is a Persian girl's name. It may be written in one of two spellings, one of which, the one I intended in fact, is more unique than the other.
