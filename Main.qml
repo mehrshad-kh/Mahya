@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Dialogs
 import QtQuick.Layouts
 
 import Mahya
@@ -20,8 +21,20 @@ ApplicationWindow {
     property int firstSavedQuote: 0
     property int lastSavedQuote: 0
 
+    MessageDialog {
+        id: messageDialog
+
+        buttons: MessageDialog.Ok
+    }
+
     Backend {
-        id: myBackend
+        id: backend
+
+        onDatabaseErrorOccurred: (error_message) => {
+            messageDialog.text = error_message
+            messageDialog.open()
+            console.log("onDatabaseErrorOccurred was emitted.")
+        }
 
         onFirstSavedQuoteChanged: (value) => {
             firstSavedQuote = value
@@ -70,8 +83,6 @@ ApplicationWindow {
 
         ColumnLayout {
             RowLayout {
-                // Layout.margins: 20
-
                 Label {
                     id: weekNumberLabel
 
@@ -87,8 +98,6 @@ ApplicationWindow {
             }
 
             RowLayout {
-                // Layout.margins: 20
-
                 Label {
                     id: textLabel
 
@@ -113,8 +122,6 @@ ApplicationWindow {
             }
 
             RowLayout {
-                // Layout.margins: 20
-
                 Label {
                     text: "Author"
                 }
@@ -127,8 +134,6 @@ ApplicationWindow {
             }
 
             RowLayout {
-                // Layout.margins: 20
-
                 Label {
                     text: "Author Description"
                 }
@@ -150,8 +155,6 @@ ApplicationWindow {
             }
 
             RowLayout {
-                // Layout.margins: 20
-
                 Label {
                     id: textDescription
 
@@ -175,7 +178,6 @@ ApplicationWindow {
             }
 
             RowLayout {
-                // Layout.margins: 20
                 Layout.alignment: Qt.AlignRight
 
                 Button {
@@ -185,14 +187,14 @@ ApplicationWindow {
                     text: "Save"
 
                     onClicked: {
-                        myBackend.saveQuote(
+                        backend.saveQuote(
                             weekNumberField.text,
                             textArea.text,
                             authorField.text,
                             authorDescriptionArea.text,
                             textDescriptionArea.text)
 
-                        myBackend.retrieveFirstLastQuotes()
+                        backend.retrieveFirstLastQuotes()
                     }
                 }
             }
@@ -212,7 +214,7 @@ ApplicationWindow {
             }
 
             Component.onCompleted: {
-                myBackend.retrieveFirstLastQuotes()
+                backend.retrieveFirstLastQuotes()
             }
         }
     }

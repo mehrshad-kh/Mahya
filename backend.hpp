@@ -16,14 +16,8 @@ class Backend : public QObject
     QML_ELEMENT
 
 public:
-    /*
-     * @throws std::runtime_error
-     */
     explicit Backend(QObject *parent = nullptr);
 
-    /*
-     * @throws std::runtime_error
-     */
     ~Backend();
 
     int first_saved_quote();
@@ -42,12 +36,10 @@ public:
         QString author_description,
         QString text_description);
 
-    /*
-     * @throws std::runtime_error
-     */
     Q_INVOKABLE void retrieveFirstLastQuotes();
 
 signals:
+    void databaseErrorOccurred(QString error_message);
     void firstSavedQuoteChanged(int value);
     void lastSavedQuoteChanged(int value);
     void quoteSaved(int week_number);
@@ -61,17 +53,8 @@ private:
     std::string path_ = "/Users/mehrshadkh./Documents/db/Mahya/";
 
 
-    /*
-     * @throws std::runtime_error
-     */
     void initDatabase();
-    /*
-     * @throws std::runtime_error
-     */
     void openDatabase();
-    /*
-     * @throws std::runtime_error
-     */
     void closeDatabase();
 
     static int firstLastQuotesCallback(

@@ -83,12 +83,10 @@ void Backend::saveQuote(
         "author_description, "
         "text_description) "
         "VALUES (?, ?, ?, ?, ?);";
-
     QByteArray qba_query = query.toLocal8Bit();
     const char *str_query = qba_query.constData();
 
     rc = sqlite3_prepare_v2(database_, str_query, -1, &statement, nullptr);
-
     if (rc == SQLITE_OK) {
         sqlite3_bind_int(statement, 1, week_number.toInt());
         // SQLITE_STATIC indicates that the application remains
@@ -123,16 +121,15 @@ void Backend::initDatabase()
         "text TEXT, "
         "author TEXT, "
         "author_description TEXT, "
-        "text_description TEXT"
-        ");";
+        "text_description TEXT);";
 
     rc = sqlite3_exec(database_, query.c_str(), nullptr, nullptr, &sql_error);
-    // SQLITE_OK is 0.
-    if (rc != SQLITE_OK) {
+    if (!rc) {
+        emit databaseErrorOccurred("Cannot create table: ");
+        return;
         std::string message = "Cannot create table: "
             + std::string(sql_error);
         sqlite3_free(sql_error);
-        throw std::runtime_error(message);
     }
 }
 
@@ -145,10 +142,11 @@ void Backend::openDatabase()
     rc = sqlite3_open(filename.c_str(), &database_);
 
     if (rc != SQLITE_OK) {
+        emit databaseErrorOccurred("Can't open database: ");
+        return;
         std::string message = "Can't open database: " 
             + std::string(sqlite3_errmsg(database_));
         sqlite3_close(database_);
-        throw std::runtime_error(message);
     }
 }
 
@@ -159,21 +157,21 @@ void Backend::closeDatabase()
     rc = sqlite3_close(database_);
 
     if (rc == SQLITE_BUSY) {
-        throw std::runtime_error("Cannot close database: it is busy.");
+        emit databaseErrorOccurred("Cannot close database: it is busy.");
     } else if (rc != SQLITE_OK) {
-        throw std::runtime_error("Cannot close database.");
+        emit databaseErrorOccurred("Cannot close database.");
     }
 }
 
 void Backend::retrieveFirstLastQuotes()
 {
     int rc = 0;
-    char *sql_error = nullptr;
 
     QString query = 
-        "SELECT MIN(week_number) AS min, MAX(week_number) AS max "
+        "SELECT "
+        "   min(week_number) AS min, "
+        "   max(week_number) AS max "
         "FROM quotes;";
-
     QByteArray qba_query = query.toLocal8Bit();
     const char *str_query = qba_query.constData();
 
@@ -182,13 +180,9 @@ void Backend::retrieveFirstLastQuotes()
         str_query, 
         &firstLastQuotesCallback, 
         this, 
-        &sql_error);
-
-    if (rc) {
-        std::string message = "Cannot retrieve information: "
-            + std::string(sql_error);
-        sqlite3_free(sql_error);
-        throw std::runtime_error(message);
+        nullptr);
+    if (!rc) {
+        emit databaseErrorOccurred("Cannot rectieve first and last quotes.");
     }
 }
 
