@@ -87,7 +87,7 @@ void Backend::saveQuote(
     const char *str_query = qba_query.constData();
 
     rc = sqlite3_prepare_v2(database_, str_query, -1, &statement, nullptr);
-    if (rc == SQLITE_OK) {
+    if (!rc) {
         sqlite3_bind_int(statement, 1, week_number.toInt());
         // SQLITE_STATIC indicates that the application remains
         // responsible for disposing of the third argument.
@@ -124,7 +124,7 @@ void Backend::initDatabase()
         "text_description TEXT);";
 
     rc = sqlite3_exec(database_, query.c_str(), nullptr, nullptr, &sql_error);
-    if (!rc) {
+    if (rc) {
         emit databaseErrorOccurred("Cannot create table: ");
         return;
         std::string message = "Cannot create table: "
@@ -141,7 +141,7 @@ void Backend::openDatabase()
 
     rc = sqlite3_open(filename.c_str(), &database_);
 
-    if (rc != SQLITE_OK) {
+    if (rc) {
         emit databaseErrorOccurred("Can't open database: ");
         return;
         std::string message = "Can't open database: " 
@@ -158,7 +158,7 @@ void Backend::closeDatabase()
 
     if (rc == SQLITE_BUSY) {
         emit databaseErrorOccurred("Cannot close database: it is busy.");
-    } else if (rc != SQLITE_OK) {
+    } else if (rc) {
         emit databaseErrorOccurred("Cannot close database.");
     }
 }
@@ -181,7 +181,7 @@ void Backend::retrieveFirstLastQuotes()
         &firstLastQuotesCallback, 
         this, 
         nullptr);
-    if (!rc) {
+    if (rc) {
         emit databaseErrorOccurred("Cannot rectieve first and last quotes.");
     }
 }
