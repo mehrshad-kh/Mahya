@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(Mahya VERSION 1.2.5 LANGUAGES CXX)
+project(MahyaProject VERSION 1.2.5 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -20,33 +20,47 @@ if (APPLE)
     set_source_files_properties(${app_icon_macos} PROPERTIES
         MACOSX_PACKAGE_LOCATION "Resources")
 
-    qt_add_executable(MahyaApp MACOSX_BUNDLE main.cpp ${app_icon_macos})
+    qt_add_executable(Mahya MACOSX_BUNDLE main.cpp ${app_icon_macos})
 else()
-    qt_add_executable(MahyaApp main.cpp)
+    qt_add_executable(Mahya main.cpp)
 endif()
 
-qt_add_qml_module(MahyaApp
-    URI Mahya
-    VERSION 1.0
-    QML_FILES Main.qml
-    SOURCES backend.hpp backend.cpp
+set(CPP_SOURCES
+    backend.hpp
+    backend.cpp
 )
 
-set_target_properties(MahyaApp PROPERTIES
-    MACOSX_BUNDLE_GUI_IDENTIFIER com.example.MahyaApp
+set(JS_SOURCES
+    ComponentCreation.js
+)
+
+set(QML_SOURCES
+    ErrorDialog.qml
+    Main.qml
+)
+
+qt_add_qml_module(Mahya
+    URI MahyaProject
+    VERSION 1.0
+    QML_FILES ${QML_SOURCES} ${JS_SOURCES}
+    SOURCES ${CPP_SOURCES}
+)
+
+set_target_properties(Mahya PROPERTIES
+    MACOSX_BUNDLE_GUI_IDENTIFIER com.example.Mahya
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
 )
 
-target_link_libraries(MahyaApp
+target_link_libraries(Mahya
     PRIVATE Qt6::Quick
     PRIVATE SQLite::SQLite3
 )
 
 include(GNUInstallDirs)
-install(TARGETS MahyaApp
+install(TARGETS Mahya
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}

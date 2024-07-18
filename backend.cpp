@@ -66,6 +66,15 @@ void Backend::saveQuote(
 
     sqlite3_stmt *statement = nullptr;
 
+    openDatabase();
+    return;
+
+    // TODO: Check blankness instead of emptiness.
+    if (week_number.isEmpty() || text.isEmpty() || author.isEmpty()) {
+        emit errorOccurred("Required fields are empty.");
+        return;
+    }
+
     QByteArray qba_text = text.toLocal8Bit();
     const char *str_text = qba_text.constData();
     QByteArray qba_author = author.toLocal8Bit();
@@ -106,7 +115,7 @@ void Backend::saveQuote(
 
     sqlite3_finalize(statement);
 
-    emit quoteSaved(week_number.toInt());
+    emit quoteSaved();
 }
 
 void Backend::initDatabase()
@@ -124,8 +133,8 @@ void Backend::initDatabase()
         "text_description TEXT);";
 
     rc = sqlite3_exec(database_, query.c_str(), nullptr, nullptr, &sql_error);
-    if (rc) {
-        emit databaseErrorOccurred("Cannot create table: ");
+    if (rc != SQLITE_OK) {
+        emit errorOccurred("Cannot create table: ");
         return;
         std::string message = "Cannot create table: "
             + std::string(sql_error);
@@ -141,8 +150,9 @@ void Backend::openDatabase()
 
     rc = sqlite3_open(filename.c_str(), &database_);
 
-    if (rc) {
-        emit databaseErrorOccurred("Can't open database: ");
+    if (rc != SQLITE_OK) {
+        emit errorOccurred("Can't open database: ");
+        qDebug() << "openDatabase(), rc = " << rc << ".";
         return;
         std::string message = "Can't open database: " 
             + std::string(sqlite3_errmsg(database_));
@@ -157,9 +167,9 @@ void Backend::closeDatabase()
     rc = sqlite3_close(database_);
 
     if (rc == SQLITE_BUSY) {
-        emit databaseErrorOccurred("Cannot close database: it is busy.");
-    } else if (rc) {
-        emit databaseErrorOccurred("Cannot close database.");
+        emit errorOccurred("Cannot close database: it is busy.");
+    } else if (rc != SQLITE_OK) {
+        emit errorOccurred("Cannot close database.");
     }
 }
 
@@ -181,8 +191,8 @@ void Backend::retrieveFirstLastQuotes()
         &firstLastQuotesCallback, 
         this, 
         nullptr);
-    if (rc) {
-        emit databaseErrorOccurred("Cannot rectieve first and last quotes.");
+    if (rc != SQLITE_OK) {
+        emit errorOccurred("Cannot retrieve first and last quotes.");
     }
 }
 

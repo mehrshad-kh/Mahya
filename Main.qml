@@ -3,7 +3,9 @@ import QtQuick.Controls
 import QtQuick.Dialogs
 import QtQuick.Layouts
 
-import Mahya
+import MahyaProject
+
+import "ComponentCreation.js" as MyScript
 
 ApplicationWindow {
   id: applicationWindow
@@ -21,19 +23,14 @@ ApplicationWindow {
   property int firstSavedQuote: 0
   property int lastSavedQuote: 0
 
-  MessageDialog {
-    id: messageDialog
-
-    buttons: MessageDialog.Ok
-  }
-
   Backend {
     id: backend
 
-    onDatabaseErrorOccurred: (error_message) => {
-      messageDialog.text = error_message
-      messageDialog.open()
-      console.log("onDatabaseErrorOccurred was emitted.")
+    Component.onCompleted: MyScript.createErrorDialog();
+
+    onErrorOccurred: (errorMessage) => {
+      console.log("Main.qml,32: onErrorOccurred() was emitted.")
+      MyScript.createErrorDialog();
     }
 
     onFirstSavedQuoteChanged: (value) => {
@@ -216,7 +213,7 @@ ApplicationWindow {
         }
 
         Component.onCompleted: {
-          // backend.retrieveFirstLastQuotes()
+          backend.retrieveFirstLastQuotes()
         }
       }
     }

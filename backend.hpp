@@ -26,9 +26,6 @@ public:
     void set_first_saved_quote(const int& value);
     void set_last_saved_quote(const int& value);
 
-    /*
-     * @throws std::runtime_error
-     */
     Q_INVOKABLE void saveQuote(
         QString week_number,
         QString text,
@@ -39,10 +36,10 @@ public:
     Q_INVOKABLE void retrieveFirstLastQuotes();
 
 signals:
-    void databaseErrorOccurred(QString error_message);
+    void errorOccurred(QString error_message);
     void firstSavedQuoteChanged(int value);
     void lastSavedQuoteChanged(int value);
-    void quoteSaved(int week_number);
+    void quoteSaved();
 
 private:
     sqlite3 *database_;
