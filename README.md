@@ -8,7 +8,7 @@ This is an app I created for a personal use case of mine. It stores a collection
 
 ## Technologies
 
-It's written in C++ and QML via the Qt Quick framework. It also makes use of SQLite.  
+It's written in C++ and QML via the Qt Quick framework. It also makes use of SQLite as its database backend.
 
 ## App Icon
 
