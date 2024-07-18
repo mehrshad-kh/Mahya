@@ -36,7 +36,7 @@ public:
     Q_INVOKABLE void retrieveFirstLastQuotes();
 
 signals:
-    void errorOccurred(QString error_message);
+    void errorOccurred(QString text, QString informativeText);
     void firstSavedQuoteChanged(int value);
     void lastSavedQuoteChanged(int value);
     void quoteSaved();
@@ -46,8 +46,9 @@ private:
 
     int first_saved_quote_ = 0;
     int last_saved_quote_ = 0;
-    std::string database_name_ = "quotes.db";
-    std::string path_ = "/Users/mehrshadkh./Documents/db/Mahya/";
+    std::string database_name_ = "database.db";
+    std::string path_ = "/Users/mehrshadkh./Documents/Databases/mahya/";
+    // std::string path_ = "$HOME/Databases/mahya/";
 
 
     void initDatabase();

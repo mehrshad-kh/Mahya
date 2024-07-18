@@ -26,11 +26,9 @@ ApplicationWindow {
   Backend {
     id: backend
 
-    Component.onCompleted: MyScript.createErrorDialog();
-
-    onErrorOccurred: (errorMessage) => {
+    onErrorOccurred: (text, informativeText) => {
       console.log("Main.qml,32: onErrorOccurred() was emitted.")
-      MyScript.createErrorDialog();
+      MyScript.createErrorDialog(text, informativeText);
     }
 
     onFirstSavedQuoteChanged: (value) => {
@@ -185,36 +183,40 @@ ApplicationWindow {
           highlighted: true
           text: "Save"
 
-          onClicked: {
+          function activate() {
             backend.saveQuote(
-              weekNumberField.text,
-              textArea.text,
-              authorField.text,
-              authorDescriptionArea.text,
-              textDescriptionArea.text)
+                weekNumberField.text,
+                textArea.text,
+                authorField.text,
+                authorDescriptionArea.text,
+                textDescriptionArea.text);
 
-              backend.retrieveFirstLastQuotes()
-            }
+            backend.retrieveFirstLastQuotes();
           }
-        }
-      }
 
-      ColumnLayout {
-        Label {
-          id: firstSavedQuoteLabel
-
-          text: "First saved quote: Week " + firstSavedQuote
-        }
-
-        Label {
-          id: lastSavedQuoteLabel
-
-          text: "Last saved quote: Week " + lastSavedQuote
-        }
-
-        Component.onCompleted: {
-          backend.retrieveFirstLastQuotes()
+          onClicked: activate()
+          Keys.onReturnPressed: activate()
+          Keys.onEnterPressed: activate()
         }
       }
     }
+
+    ColumnLayout {
+      Label {
+        id: firstSavedQuoteLabel
+
+        text: "First saved quote: Week " + firstSavedQuote
+      }
+
+      Label {
+        id: lastSavedQuoteLabel
+
+        text: "Last saved quote: Week " + lastSavedQuote
+      }
+
+      Component.onCompleted: {
+        backend.retrieveFirstLastQuotes()
+      }
+    }
   }
+}
