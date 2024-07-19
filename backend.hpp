@@ -47,8 +47,7 @@ private:
     int first_saved_quote_ = 0;
     int last_saved_quote_ = 0;
     std::string database_name_ = "database.db";
-    std::string path_ = "/Users/mehrshadkh./Documents/Databases/mahya/";
-    // std::string path_ = "$HOME/Databases/mahya/";
+    std::string relative_path_ = "/Documents/Databases/mahya/";
 
 
     void initDatabase();

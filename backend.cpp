@@ -145,9 +145,12 @@ void Backend::openDatabase()
 {
   int rc = 0;
 
-  std::string filename = path_ + database_name_;
+  // TODO:
+  // Use path arithmetic instead of manual work.
+  std::string path = 
+      std::string(std::getenv("HOME")) + relative_path_ + database_name_;
 
-  rc = sqlite3_open(filename.c_str(), &database_);
+  rc = sqlite3_open(path.c_str(), &database_);
 
   if (rc != SQLITE_OK) {
     qInfo() << "openDatabase(),148: Can't open database.";
