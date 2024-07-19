@@ -2,10 +2,8 @@ var component;
 var errorDialog;
 
 function createErrorDialog(text, informativeText) {
-    console.log("ComponentCreation.js,5: createErrorDialog() was called.");
     component = Qt.createComponent("ErrorDialog.qml");
     if (component.status == Component.Ready) {
-        console.log("ComponentCreation.js,8: component is Ready.")
         finishCreation(text, informativeText);
     } else {
         component.statusChanged.connect(finishCreation);

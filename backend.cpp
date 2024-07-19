@@ -11,11 +11,7 @@
 #include <QDebug>
 #endif
 
-Backend::Backend(QObject *parent) : QObject(parent)
-{
-  openDatabase();
-  initDatabase();
-}
+Backend::Backend(QObject *parent) : QObject(parent) {}
 
 Backend::~Backend()
 {
@@ -50,6 +46,11 @@ void Backend::set_last_saved_quote(const int& value)
   last_saved_quote_ = value; 
 
   emit lastSavedQuoteChanged(last_saved_quote_);
+}
+
+void Backend::initialize()
+{
+  openDatabase();
 }
 
 void Backend::saveQuote(

@@ -26,6 +26,8 @@ public:
     void set_first_saved_quote(const int& value);
     void set_last_saved_quote(const int& value);
 
+    Q_INVOKABLE void initialize();
+
     Q_INVOKABLE void saveQuote(
         QString week_number,
         QString text,
@@ -50,6 +52,9 @@ private:
     std::string relative_path_ = "/Documents/Databases/mahya/";
 
 
+    /*
+     * Not used.
+     */
     void initDatabase();
     void openDatabase();
     void closeDatabase();

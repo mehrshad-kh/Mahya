@@ -4,7 +4,7 @@ project(MahyaProject VERSION 1.2.5 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(SQLite3 REQUIRED)
+find_package(SQLiteCpp REQUIRED)
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
 
 qt_standard_project_setup(REQUIRES 6.5)
@@ -31,7 +31,7 @@ set(CPP_SOURCES
 )
 
 set(JS_SOURCES
-    ComponentCreation.js
+    ErrorDialogCreation.js
 )
 
 set(QML_SOURCES
@@ -56,7 +56,7 @@ set_target_properties(Mahya PROPERTIES
 
 target_link_libraries(Mahya
     PRIVATE Qt6::Quick
-    PRIVATE SQLite::SQLite3
+    PRIVATE SQLiteCpp
 )
 
 include(GNUInstallDirs)

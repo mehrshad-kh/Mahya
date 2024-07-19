@@ -5,7 +5,7 @@ import QtQuick.Layouts
 
 import MahyaProject
 
-import "ComponentCreation.js" as MyScript
+import "ErrorDialogCreation.js" as MyScript
 
 ApplicationWindow {
   id: applicationWindow
@@ -189,9 +189,9 @@ ApplicationWindow {
                 textArea.text,
                 authorField.text,
                 authorDescriptionArea.text,
-                textDescriptionArea.text);
+                textDescriptionArea.text)
 
-            backend.retrieveFirstLastQuotes();
+            backend.retrieveFirstLastQuotes()
           }
 
           onClicked: activate()
@@ -215,6 +215,7 @@ ApplicationWindow {
       }
 
       Component.onCompleted: {
+        backend.initialize()
         backend.retrieveFirstLastQuotes()
       }
     }
