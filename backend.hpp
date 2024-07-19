@@ -1,9 +1,11 @@
 #ifndef BACKEND_HPP
 #define BACKEND_HPP
 
+#include <ctime>
+#include <memory>
 #include <string>
 
-#include <sqlite3.h>
+#include <SQLiteCpp/SQLiteCpp.h>
 
 #include <QObject>
 #include <QString>
@@ -12,58 +14,56 @@
 
 class Backend : public QObject
 {
-    Q_OBJECT
-    QML_ELEMENT
+  Q_OBJECT
+  QML_ELEMENT
 
 public:
-    explicit Backend(QObject *parent = nullptr);
+  explicit Backend(QObject *parent = nullptr);
 
-    ~Backend();
+  int first_saved_quote();
+  int last_saved_quote();
 
-    int first_saved_quote();
-    int last_saved_quote();
+  void set_first_saved_quote(const int& value);
+  void set_last_saved_quote(const int& value);
 
-    void set_first_saved_quote(const int& value);
-    void set_last_saved_quote(const int& value);
+  Q_INVOKABLE void init();
+  Q_INVOKABLE void saveQuote(
+      QString week_number,
+      QString text,
+      QString author,
+      QString author_description,
+      QString text_description);
+  Q_INVOKABLE void retrieveFirstLastSavedQuotes();
 
-    Q_INVOKABLE void initialize();
-
-    Q_INVOKABLE void saveQuote(
-        QString week_number,
-        QString text,
-        QString author,
-        QString author_description,
-        QString text_description);
-
-    Q_INVOKABLE void retrieveFirstLastQuotes();
+  /**
+   * @throws std::runtime_error
+   */
+  static std::string nowInUtc()
+  {
+    char buf[21] = {0};
+    std::time_t now = std::time(0);
+    std::tm *now_in_utc = std::gmtime(&now);
+    if (std::strftime(buf, 42, "%FT%TZ", now_in_utc) == 0) {
+      throw std::runtime_error("Cannot get current date time in UTC.");
+    }
+    return std::string(buf);
+  }
 
 signals:
-    void errorOccurred(QString text, QString informativeText);
-    void firstSavedQuoteChanged(int value);
-    void lastSavedQuoteChanged(int value);
-    void quoteSaved();
+  void errorOccurred(QString text, QString informativeText);
+  void firstSavedQuoteChanged(int value);
+  void lastSavedQuoteChanged(int value);
+  void quoteSaved();
 
 private:
-    sqlite3 *database_;
+  std::unique_ptr<SQLite::Database> db_;
 
-    int first_saved_quote_ = 0;
-    int last_saved_quote_ = 0;
-    std::string database_name_ = "database.db";
-    std::string relative_path_ = "/Documents/Databases/mahya/";
+  int first_saved_quote_ = 0;
+  int last_saved_quote_ = 0;
+  std::string database_name_ = "database.db";
+  std::string relative_path_ = "/Documents/Databases/mahya/";
 
-
-    /*
-     * Not used.
-     */
-    void initDatabase();
-    void openDatabase();
-    void closeDatabase();
-
-    static int firstLastQuotesCallback(
-        void *ptr, 
-        int column_count, 
-        char **row_data, 
-        char **column_names);
+  void openDatabase();
 };
 
 #endif // BACKEND_HPP

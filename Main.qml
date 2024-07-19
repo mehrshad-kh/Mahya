@@ -27,7 +27,6 @@ ApplicationWindow {
     id: backend
 
     onErrorOccurred: (text, informativeText) => {
-      console.log("Main.qml,32: onErrorOccurred() was emitted.")
       MyScript.createErrorDialog(text, informativeText);
     }
 
@@ -191,7 +190,7 @@ ApplicationWindow {
                 authorDescriptionArea.text,
                 textDescriptionArea.text)
 
-            backend.retrieveFirstLastQuotes()
+            backend.retrieveFirstLastSavedQuotes()
           }
 
           onClicked: activate()
@@ -215,8 +214,8 @@ ApplicationWindow {
       }
 
       Component.onCompleted: {
-        backend.initialize()
-        backend.retrieveFirstLastQuotes()
+        backend.init()
+        backend.retrieveFirstLastSavedQuotes()
       }
     }
   }
