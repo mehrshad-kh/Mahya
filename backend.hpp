@@ -38,19 +38,11 @@ public:
   /**
    * @throws std::runtime_error
    */
-  static std::string nowInUtc()
-  {
-    char buf[21] = {0};
-    std::time_t now = std::time(0);
-    std::tm *now_in_utc = std::gmtime(&now);
-    if (std::strftime(buf, 42, "%FT%TZ", now_in_utc) == 0) {
-      throw std::runtime_error("Cannot get current date time in UTC.");
-    }
-    return std::string(buf);
-  }
+  static std::string nowInUtc();
+  static bool isBlank(const QString& str);
 
 signals:
-  void errorOccurred(QString text, QString informativeText);
+  void errorOccurred(QString text, QString informative_text);
   void firstSavedQuoteChanged(int value);
   void lastSavedQuoteChanged(int value);
   void quoteSaved();
