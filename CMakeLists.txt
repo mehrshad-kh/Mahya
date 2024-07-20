@@ -28,6 +28,8 @@ endif()
 set(CPP_SOURCES
     backend.hpp
     backend.cpp
+    utility.hpp
+    utility.cpp
 )
 
 set(JS_SOURCES

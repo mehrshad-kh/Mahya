@@ -1,5 +1,7 @@
 #include "backend.hpp"
 
+#include "utility.hpp"
+
 #include <cstdlib>
 #include <stdexcept>
 
@@ -54,9 +56,9 @@ void Backend::saveQuote(
     QString author_description,
     QString text_description)
 {
-  if (Backend::isBlank(week_number)
-      || Backend::isBlank(text)
-      || Backend::isBlank(author)) {
+  if (Utility::isBlank(week_number)
+      || Utility::isBlank(text)
+      || Utility::isBlank(author)) {
     emit errorOccurred(
         "Required fields are blank.",
         "Please fill in Week #, Text, and Author.");
@@ -80,7 +82,7 @@ void Backend::saveQuote(
     statement.bind(3, author.toStdString());
     statement.bind(4, author_description.toStdString());
     statement.bind(5, text_description.toStdString());
-    statement.bind(6, Backend::nowInUtc());
+    statement.bind(6, Utility::nowInUtc());
     statement.exec();
   } catch (const SQLite::Exception& e) {
     QString what = QString::fromLocal8Bit(e.what(), -1);
@@ -117,22 +119,6 @@ void Backend::retrieveFirstLastSavedQuotes()
     emit errorOccurred("Cannot retrieve first/last quotes.", what);
     return;
   }
-}
-
-std::string Backend::nowInUtc()
-{
-  char buf[21] = {0};
-  std::time_t now = std::time(0);
-  std::tm *now_in_utc = std::gmtime(&now);
-  if (std::strftime(buf, 42, "%FT%TZ", now_in_utc) == 0) {
-    throw std::runtime_error("Cannot get current date time in UTC.");
-  }
-  return std::string(buf);
-}
-
-bool Backend::isBlank(const QString& str)
-{
-  return str.trimmed().isEmpty();
 }
 
 void Backend::openDatabase()

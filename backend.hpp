@@ -35,12 +35,6 @@ public:
       QString text_description);
   Q_INVOKABLE void retrieveFirstLastSavedQuotes();
 
-  /**
-   * @throws std::runtime_error
-   */
-  static std::string nowInUtc();
-  static bool isBlank(const QString& str);
-
 signals:
   void errorOccurred(QString text, QString informative_text);
   void firstSavedQuoteChanged(int value);
