@@ -1,7 +1,6 @@
 #ifndef BACKEND_HPP
 #define BACKEND_HPP
 
-#include <ctime>
 #include <memory>
 #include <string>
 
@@ -40,6 +39,7 @@ signals:
   void firstSavedQuoteChanged(int value);
   void lastSavedQuoteChanged(int value);
   void quoteSaved();
+  void weekNumberFocused();
 
 private:
   std::unique_ptr<SQLite::Database> db_;

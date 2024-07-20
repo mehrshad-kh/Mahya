@@ -46,6 +46,10 @@ ApplicationWindow {
       textDescriptionArea.text = ""
       weekNumberField.focus = true
     }
+
+    onWeekNumberFocused: {
+      weekNumberField.focus = true
+    }
   }
 
   MenuBar {

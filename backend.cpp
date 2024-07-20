@@ -65,6 +65,14 @@ void Backend::saveQuote(
     return;
   }
 
+  if (!Utility::isNumber(week_number)) {
+    emit errorOccurred(
+        "Invalid Week #", 
+        "Please enter a valid number.");
+    emit weekNumberFocused();
+    return;
+  }
+
   std::string query =
     "INSERT INTO quotes ("
     "week_number, "

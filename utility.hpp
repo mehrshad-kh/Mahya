@@ -8,11 +8,13 @@
 class Utility
 {
 public:
+  static bool isBlank(const QString& s);
+  static bool isNumber(const QString& s);
+
   /**
    * @throws std::runtime_error
    */
   static std::string nowInUtc();
-  static bool isBlank(const QString& str);
 
 private:
 };
