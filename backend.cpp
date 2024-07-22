@@ -73,7 +73,28 @@ void Backend::saveQuote(
     return;
   }
 
-  std::string query =
+  std::string query = 
+    "SELECT id "
+    "FROM quotes "
+    "WHERE week_number = ?;";
+
+  try {
+    SQLite::Statement statement(*db_, query);
+    statement.bind(1, week_number.toInt());
+    statement.executeStep();
+    if (statement.hasRow()) {
+      emit errorOccurred(
+          "Repetitive Week #",
+          "Week #" + week_number + " already exists.");
+      return;
+    }
+  } catch (const SQLite::Exception& e) {
+    QString what = QString::fromLocal8Bit(e.what(), -1);
+    emit errorOccurred("Internal Error", what);
+    return; 
+  }
+
+  query =
     "INSERT INTO quotes ("
     "week_number, "
     "text, "
@@ -85,7 +106,7 @@ void Backend::saveQuote(
 
   try {
     SQLite::Statement statement(*db_, query);
-    statement.bind(1, week_number.toStdString());
+    statement.bind(1, week_number.toInt());
     statement.bind(2, text.toStdString());
     statement.bind(3, author.toStdString());
     statement.bind(4, author_description.toStdString());
@@ -103,7 +124,7 @@ void Backend::saveQuote(
   }
 
   emit quoteSaved();
-  emit errorOccurred("Success!", "Saved successfully.");
+  emit errorOccurred("Success!", "Quote saved successfully.");
 }
 
 void Backend::retrieveFirstLastSavedQuotes()

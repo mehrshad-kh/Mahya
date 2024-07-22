@@ -25,6 +25,12 @@ public:
   void set_first_saved_quote(const int& value);
   void set_last_saved_quote(const int& value);
 
+  /**
+   * @brief Initialize the Backend object.
+   *
+   * Must be called after each object creation.
+   * Otherwise, exceptions will be thrown at each function call.
+   */
   Q_INVOKABLE void init();
   Q_INVOKABLE void saveQuote(
       QString week_number,
