@@ -1,10 +1,11 @@
+# Build directory
 build/
 
-# Vim
-*.swp
-
-# Qt
+# CMake
 CMakeLists.txt.user
 
 # macoS
 .DS_Store
+
+# Vim
+*.swp
