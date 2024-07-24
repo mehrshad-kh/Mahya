@@ -60,6 +60,7 @@ Version 1.2.5 - 2024 Apr 19
 2024 Jul 23
 - Minor changes.
 
-2024 Jul 24
+Version 1.4.3 - 2024 Jul 24
 - Add CHANGELOG.
+- Improve internal code.
 
