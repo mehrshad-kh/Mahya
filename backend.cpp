@@ -3,6 +3,7 @@
 #include "utility.hpp"
 
 #include <cstdlib>
+#include <filesystem>
 #include <stdexcept>
 
 #include <QByteArray>
@@ -152,11 +153,15 @@ void Backend::retrieveFirstLastSavedQuotes()
 
 void Backend::openDatabase()
 {
-  std::string path = 
-      std::string(std::getenv("HOME")) + relative_path_ + database_name_;
+  std::string home(std::getenv("HOME"));
+  std::filesystem::path path(home);
+  path /= relative_path_;
+  path /= database_name_;
 
   try {
-    db_ = std::make_unique<SQLite::Database>(path, SQLite::OPEN_READWRITE);
+    db_ = std::make_unique<SQLite::Database>(
+        path.string(), 
+        SQLite::OPEN_READWRITE);
   } catch (const SQLite::Exception& e) {
     QString what = QString::fromLocal8Bit(e.what(), -1);
     emit errorOccurred("Cannot open database.", what);

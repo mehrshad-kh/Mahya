@@ -53,7 +53,7 @@ private:
   int first_saved_quote_ = 0;
   int last_saved_quote_ = 0;
   std::string database_name_ = "database.db";
-  std::string relative_path_ = "/Documents/Databases/mahya/";
+  std::string relative_path_ = "Documents/Databases/mahya";
 
   void openDatabase();
 };
