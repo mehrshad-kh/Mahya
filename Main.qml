@@ -175,7 +175,22 @@ ApplicationWindow {
 
             // Set tab key to move to the next control.
             KeyNavigation.priority: KeyNavigation.BeforeItem
-            KeyNavigation.tab: saveButton
+            KeyNavigation.tab: dateIntendedField
+          }
+        }
+      }
+
+      RowLayout {
+        Label {
+          id: dateIntendedLabel
+
+          text: "Date Intended"
+        }
+
+        TextField {
+          id: dateIntendedField
+
+          Layout.fillWidth: true
           }
         }
       }

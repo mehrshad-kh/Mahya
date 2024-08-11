@@ -64,3 +64,6 @@ Version 1.4.3 - 2024 Jul 24
 - Add CHANGELOG.
 - Improve internal code.
 
+Version 1.4.4 - 2024 Aug 11
+- Display saved successfully label.
+
