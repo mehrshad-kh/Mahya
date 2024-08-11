@@ -125,7 +125,7 @@ void Backend::saveQuote(
   }
 
   emit quoteSaved();
-  emit errorOccurred("Success!", "Quote saved successfully.");
+  // emit errorOccurred("Success!", "Quote saved successfully.");
 }
 
 void Backend::retrieveFirstLastSavedQuotes()

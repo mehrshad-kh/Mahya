@@ -45,6 +45,9 @@ ApplicationWindow {
       authorDescriptionArea.text = ""
       textDescriptionArea.text = ""
       weekNumberField.focus = true
+
+      savedSuccessfullyLabel.visible = true
+      timer.start()
     }
 
     onWeekNumberFocused: {
@@ -179,6 +182,22 @@ ApplicationWindow {
 
       RowLayout {
         Layout.alignment: Qt.AlignRight
+
+        Timer {
+          id: timer
+
+          interval: 5000
+
+          onTriggered: savedSuccessfullyLabel.visible = false
+        }
+
+        Label {
+          id: savedSuccessfullyLabel
+
+          text: "Quote saved successfully."
+          color: "chartreuse"
+          visible: false
+        }
 
         Button {
           id: saveButton
