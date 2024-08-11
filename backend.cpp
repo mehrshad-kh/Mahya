@@ -57,6 +57,7 @@ void Backend::saveQuote(
     QString author_description,
     QString text_description)
 {
+  /*
   if (Utility::isBlank(week_number)
       || Utility::isBlank(text)
       || Utility::isBlank(author)) {
@@ -123,9 +124,8 @@ void Backend::saveQuote(
     emit errorOccurred("Error occurred.", what);
     return;
   }
-
+  */
   emit quoteSaved();
-  // emit errorOccurred("Success!", "Quote saved successfully.");
 }
 
 void Backend::retrieveFirstLastSavedQuotes()

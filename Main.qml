@@ -121,7 +121,6 @@ ApplicationWindow {
             KeyNavigation.tab: authorField
           }
         }
-
       }
 
       RowLayout {
@@ -190,10 +189,11 @@ ApplicationWindow {
         TextField {
           id: dateIntendedField
 
+          text: Qt.formatDateTime(new Date(), 'yyyy-MM-dd')
+
           Layout.fillWidth: true
           }
         }
-      }
 
       RowLayout {
         Layout.alignment: Qt.AlignRight
@@ -212,6 +212,8 @@ ApplicationWindow {
           text: "Quote saved successfully."
           color: "chartreuse"
           visible: false
+
+          Layout.fillWidth: true
         }
 
         Button {
