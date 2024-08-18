@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(ProjectMahya VERSION 1.4.4 LANGUAGES CXX)
+project(ProjectMahya VERSION 1.4.5 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 

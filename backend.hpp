@@ -37,7 +37,8 @@ public:
       QString text,
       QString author,
       QString author_description,
-      QString text_description);
+      QString text_description,
+      QString date_intended);
   Q_INVOKABLE void retrieveFirstLastSavedQuotes();
 
 signals:

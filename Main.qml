@@ -189,7 +189,8 @@ ApplicationWindow {
         TextField {
           id: dateIntendedField
 
-          text: Qt.formatDateTime(new Date(), 'yyyy-MM-dd')
+          // text: Qt.formatDateTime(new Date(), 'yyyy-MM-dd')
+          text: new Date().toISOString().split('T')[0]
 
           Layout.fillWidth: true
           }
@@ -228,7 +229,8 @@ ApplicationWindow {
                 textArea.text,
                 authorField.text,
                 authorDescriptionArea.text,
-                textDescriptionArea.text)
+                textDescriptionArea.text,
+                dateIntendedField.text)
 
             backend.retrieveFirstLastSavedQuotes()
           }

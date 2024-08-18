@@ -55,9 +55,9 @@ void Backend::saveQuote(
     QString text,
     QString author,
     QString author_description,
-    QString text_description)
+    QString text_description,
+    QString date_intended)
 {
-  /*
   if (Utility::isBlank(week_number)
       || Utility::isBlank(text)
       || Utility::isBlank(author)) {
@@ -103,8 +103,10 @@ void Backend::saveQuote(
     "author, "
     "author_description, "
     "text_description, "
+    "date_intended, "
     "date_time_submitted) "
-    "VALUES (?, ?, ?, ?, ?, ?);";
+    "VALUES (?, ?, ?, ?, ?, "
+    "?, ?);";
 
   try {
     SQLite::Statement statement(*db_, query);
@@ -113,7 +115,8 @@ void Backend::saveQuote(
     statement.bind(3, author.toStdString());
     statement.bind(4, author_description.toStdString());
     statement.bind(5, text_description.toStdString());
-    statement.bind(6, Utility::nowInUtc());
+    statement.bind(6, date_intended.toStdString());
+    statement.bind(7, Utility::nowInUtc());
     statement.exec();
   } catch (const SQLite::Exception& e) {
     QString what = QString::fromLocal8Bit(e.what(), -1);
@@ -124,7 +127,7 @@ void Backend::saveQuote(
     emit errorOccurred("Error occurred.", what);
     return;
   }
-  */
+
   emit quoteSaved();
 }
 
