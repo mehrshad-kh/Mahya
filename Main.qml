@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Dialogs
 import QtQuick.Layouts
 
 import ProjectMahya
@@ -193,8 +192,8 @@ ApplicationWindow {
           text: new Date().toISOString().split('T')[0]
 
           Layout.fillWidth: true
-          }
         }
+      }
 
       RowLayout {
         Layout.alignment: Qt.AlignRight
